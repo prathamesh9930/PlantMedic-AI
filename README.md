@@ -38,6 +38,7 @@ Diagnose Plant Diseases with AI Precision
 - 🌗 Responsive light/dark mode styling
 - 🎈 Friendly UI with progress animation and balloon success celebration
 - 📎 Linked GitHub repo and contact info
+- 🚀 **Live Demo:** [ai-agrovision.streamlit.app](https://ai-agrovision.streamlit.app/) ([Preview](https://ai-agrovision.streamlit.app/))
 
 ---
 
