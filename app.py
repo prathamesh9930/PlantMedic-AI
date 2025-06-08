@@ -171,13 +171,39 @@ st.markdown(
 @st.cache_resource
 def load_model_and_classes():
     try:
-        model = tf.keras.models.load_model(MODEL_PATH)
+        # Custom objects to handle model loading
+        custom_objects = {}
+        
+        # Load model with custom objects and compile=False
+        model = tf.keras.models.load_model(
+            MODEL_PATH,
+            custom_objects=custom_objects,
+            compile=False
+        )
+        
+        # Recompile the model with basic settings
+        model.compile(
+            optimizer='adam',
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        # Load class names
         with open(CLASS_NAMES_PATH, 'rb') as f:
             class_names = pickle.load(f)
+            
         return model, class_names
     except Exception as e:
-        logging.error(f"Error loading model or class names: {e}")
-        st.error("Failed to load the model or class names. Please check the file paths and try again.")
+        logging.error(f"Error loading model or class names: {str(e)}")
+        st.error(f"""
+        Failed to load the model or class names. Error details:
+        {str(e)}
+        
+        Please ensure:
+        1. The model file exists at {MODEL_PATH}
+        2. The class names file exists at {CLASS_NAMES_PATH}
+        3. You have TensorFlow 2.13.0 installed
+        """)
         return None, None
 
 model, class_names = load_model_and_classes()
