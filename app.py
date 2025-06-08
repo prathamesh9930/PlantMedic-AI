@@ -11,8 +11,8 @@ APP_TITLE = "🌱 AgroVision"
 APP_SUBTITLE = "Diagnose Plant Diseases with AI Precision"
 APP_LOGO = "https://img.icons8.com/fluency/96/plant-under-sun.png"
 GITHUB_LINK = "https://github.com/Parthivkoli/AgroVision"
-MODEL_PATH = "model/plant_disease_model.h5"
-CLASS_NAMES_PATH = "model/class_names.pkl"
+MODEL_PATH = "plant_disease_model.h5"  # Updated path
+CLASS_NAMES_PATH = "class_names.pkl"   # Updated path
 
 # Disease information dictionary
 DISEASE_INFO = {
