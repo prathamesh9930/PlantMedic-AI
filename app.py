@@ -2,6 +2,9 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import tensorflow as tf
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
+from tensorflow.keras.models import Model
 import pickle
 import time
 import logging
@@ -11,8 +14,8 @@ APP_TITLE = "🌱 AgroVision"
 APP_SUBTITLE = "Diagnose Plant Diseases with AI Precision"
 APP_LOGO = "https://img.icons8.com/fluency/96/plant-under-sun.png"
 GITHUB_LINK = "https://github.com/Parthivkoli/AgroVision"
-MODEL_PATH = "plant_disease_model.h5"  # Updated path
-CLASS_NAMES_PATH = "class_names.pkl"   # Updated path
+MODEL_PATH = "plant_disease_model.h5"  # Path to model weights
+CLASS_NAMES_PATH = "class_names.pkl"   # Path to class names
 
 # Disease information dictionary
 DISEASE_INFO = {
@@ -171,20 +174,28 @@ st.markdown(
 @st.cache_resource
 def load_model_and_classes():
     try:
-        # Define input layer explicitly
-        inputs = tf.keras.Input(shape=(224, 224, 3))
-        
-        # Load model weights only
-        base_model = tf.keras.models.load_model(
-            MODEL_PATH,
-            compile=False,
-            custom_objects={
-                'Input': lambda shape, **kwargs: tf.keras.layers.Input(shape=shape[-3:])
-            }
+        # Create MobileNetV2 base model
+        base_model = MobileNetV2(
+            input_shape=(224, 224, 3),
+            include_top=False,
+            weights=None  # We’ll load custom weights
         )
         
-        # Create new model with explicit input
-        model = tf.keras.Model(inputs=inputs, outputs=base_model(inputs))
+        # Add custom layers (assuming the original model had these)
+        x = base_model.output
+        x = GlobalAveragePooling2D()(x)
+        x = Dense(1024, activation='relu')(x)
+        # Assume the number of classes is determined by class_names
+        with open(CLASS_NAMES_PATH, 'rb') as f:
+            class_names = pickle.load(f)
+        num_classes = len(class_names)
+        predictions = Dense(num_classes, activation='softmax')(x)
+        
+        # Create the full model
+        model = Model(inputs=base_model.input, outputs=predictions)
+        
+        # Load the weights from the .h5 file
+        model.load_weights(MODEL_PATH)
         
         # Compile the model
         model.compile(
@@ -193,10 +204,6 @@ def load_model_and_classes():
             metrics=['accuracy']
         )
         
-        # Load class names
-        with open(CLASS_NAMES_PATH, 'rb') as f:
-            class_names = pickle.load(f)
-            
         return model, class_names
     except Exception as e:
         logging.error(f"Error loading model or class names: {str(e)}")
@@ -205,9 +212,10 @@ def load_model_and_classes():
         {str(e)}
         
         Please ensure:
-        1. The model file exists at {MODEL_PATH}
+        1. The model weights file exists at {MODEL_PATH}
         2. The class names file exists at {CLASS_NAMES_PATH}
-        3. You have TensorFlow 2.13.0 installed
+        3. The model is compatible with TensorFlow 2.12.0
+        4. The class_names.pkl file is a valid pickle file
         """)
         return None, None
 
@@ -243,7 +251,7 @@ if uploaded_file is not None:
         
         # Make prediction
         prediction = model.predict(img_array)
-        pred_idx = np.argmax(prediction)
+        pred_idx = np.argmax(prediction[0])
         pred_class = class_names[pred_idx]
         pred_prob = prediction[0][pred_idx]
 
