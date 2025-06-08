@@ -171,17 +171,22 @@ st.markdown(
 @st.cache_resource
 def load_model_and_classes():
     try:
-        # Custom objects to handle model loading
-        custom_objects = {}
+        # Define input layer explicitly
+        inputs = tf.keras.Input(shape=(224, 224, 3))
         
-        # Load model with custom objects and compile=False
-        model = tf.keras.models.load_model(
+        # Load model weights only
+        base_model = tf.keras.models.load_model(
             MODEL_PATH,
-            custom_objects=custom_objects,
-            compile=False
+            compile=False,
+            custom_objects={
+                'Input': lambda shape, **kwargs: tf.keras.layers.Input(shape=shape[-3:])
+            }
         )
         
-        # Recompile the model with basic settings
+        # Create new model with explicit input
+        model = tf.keras.Model(inputs=inputs, outputs=base_model(inputs))
+        
+        # Compile the model
         model.compile(
             optimizer='adam',
             loss='categorical_crossentropy',
