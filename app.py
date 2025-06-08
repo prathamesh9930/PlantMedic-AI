@@ -174,6 +174,11 @@ st.markdown(
 @st.cache_resource
 def load_model_and_classes():
     try:
+        # Load class names to determine number of classes
+        with open(CLASS_NAMES_PATH, 'rb') as f:
+            class_names = pickle.load(f)
+        num_classes = len(class_names)
+        
         # Create MobileNetV2 base model
         base_model = MobileNetV2(
             input_shape=(224, 224, 3),
@@ -181,14 +186,10 @@ def load_model_and_classes():
             weights=None  # We’ll load custom weights
         )
         
-        # Add custom layers (assuming the original model had these)
+        # Add custom layers to match the saved model architecture
         x = base_model.output
         x = GlobalAveragePooling2D()(x)
-        x = Dense(1024, activation='relu')(x)
-        # Assume the number of classes is determined by class_names
-        with open(CLASS_NAMES_PATH, 'rb') as f:
-            class_names = pickle.load(f)
-        num_classes = len(class_names)
+        x = Dense(128, activation='relu')(x)  # Changed from 1024 to 128 to match weights
         predictions = Dense(num_classes, activation='softmax')(x)
         
         # Create the full model
@@ -214,8 +215,8 @@ def load_model_and_classes():
         Please ensure:
         1. The model weights file exists at {MODEL_PATH}
         2. The class names file exists at {CLASS_NAMES_PATH}
-        3. The model is compatible with TensorFlow 2.12.0
-        4. The class_names.pkl file is a valid pickle file
+        3. The model weights are compatible with TensorFlow 2.12.0 and the defined architecture
+        4. The class_names.pkl file is a valid pickle file containing a list of class names
         """)
         return None, None
 
