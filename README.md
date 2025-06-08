@@ -9,7 +9,6 @@ Diagnose Plant Diseases with AI Precision
   <img src="https://img.shields.io/badge/License-MIT-green" />
   <img src="https://img.shields.io/badge/Status-Active-success" />
   <img src="https://img.shields.io/badge/Maintained%20by-Parthiv%20Koli-blue" />
-  <img src="https://img.shields.io/github/stars/Parthivkoli/AgroVision?style=social" />
 </p>
 
 ---
@@ -123,7 +122,7 @@ scikit-learn
 ## 🧑‍💻 Author
 
 - **Parthiv Koli**
-- 📧 parthivkoli@example.com
+- 📧 parthivkoli69@gmail.com
 - 🔗 [GitHub Profile](https://github.com/Parthivkoli)
 
 ---
