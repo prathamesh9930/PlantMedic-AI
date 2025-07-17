@@ -1,6 +1,6 @@
-# 🌱 AgroVision
+# � PlantMedic AI
 
-Diagnose Plant Diseases with AI Precision
+Smart Plant Disease Detection & Agricultural Intelligence Platform
 
 <p align="center">
   <img src="https://img.shields.io/badge/Made%20with-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
@@ -9,24 +9,43 @@ Diagnose Plant Diseases with AI Precision
   <img src="https://img.shields.io/badge/License-MIT-green" />
   <img src="https://img.shields.io/badge/Status-Active-success" />
   <img src="https://img.shields.io/badge/Maintained%20by-Parthiv%20Koli-blue" />
+  <img src="https://img.shields.io/badge/Version-2.0-brightgreen" />
+  <img src="https://img.shields.io/badge/AI-Plant%20Health-success" />
 </p>
 
 ---
 
 ## 🚀 Overview
 
-**AgroVision** is a user-friendly AI-powered web application designed to help farmers, gardeners, and researchers diagnose plant diseases from leaf images. Built with Streamlit and TensorFlow, the app leverages a fine-tuned MobileNetV2 model trained on the [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease) to detect diseases in tomato plants and provide actionable remedies.
+**PlantMedic AI** is an enhanced, user-friendly AI-powered agricultural intelligence platform designed to help farmers, gardeners, and researchers diagnose plant diseases from leaf images. Built with Streamlit and TensorFlow, the app leverages a fine-tuned MobileNetV2 model trained on the [PlantVillage dataset](https://www.kaggle.com/datasets/emmarex/plantdisease) to detect diseases in tomato plants and provide comprehensive care recommendations.
+
+### ✨ New Features in v2.0:
+- **📊 Analytics Dashboard**: Track diagnosis history and patterns
+- **🎨 Enhanced UI**: Modern design with animations and better UX
+- **📝 Diagnosis History**: Keep track of all your plant diagnoses
+- **📥 Export Capabilities**: Download diagnosis history as CSV
+- **⚡ Performance Monitoring**: Backend optimizations for faster processing
+- **🔧 Modular Architecture**: Better code organization and maintainability
+- **🌿 New Branding**: Professional PlantMedic AI identity
 
 ---
 
 ## 🧠 How It Works
 
-1. **Upload** a clear image of a plant leaf.
-2. The **AI model** analyzes the image and classifies it into one of several disease categories (or "healthy").
-3. The app displays:
-   - The **predicted disease**
-   - **Confidence level**
-   - **Description** and **recommended remedy**
+1. **Upload** a clear image of a plant leaf through the intuitive interface.
+2. The **enhanced AI model** analyzes the image with improved preprocessing.
+3. The app displays comprehensive results including:
+   - The **predicted disease** with severity level
+   - **Confidence score** with visual indicators
+   - **Detailed description** and **symptoms**
+   - **Treatment recommendations** and **prevention tips**
+   - **Timeline** for treatment and **economic impact**
+
+### 🎯 New Analysis Features:
+- **Multi-tab interface** for different functionalities
+- **Real-time analytics** of your diagnosis patterns
+- **Enhanced disease information** with symptoms and prevention
+- **Confidence visualization** and top predictions display
 
 ---
 
