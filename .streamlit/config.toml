@@ -6,12 +6,11 @@ developmentMode = false
 headless = true
 enableCORS = false
 enableXsrfProtection = false
-maxUploadSize = 50
-enableStaticServing = true
+maxUploadSize = 200
+port = 8501
 
 [browser]
 gatherUsageStats = false
-serverAddress = "0.0.0.0"
 
 [theme]
 primaryColor = "#4facfe"
