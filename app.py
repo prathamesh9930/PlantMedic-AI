@@ -46,8 +46,8 @@ else:
     APP_SUBTITLE = "Smart Plant Disease Detection & Agricultural Intelligence Platform"
     APP_LOGO = "https://cdn-icons-png.flaticon.com/512/628/628283.png"
     GITHUB_LINK = "https://github.com/prathamesh9930/PlantMedic-AI"
-    MODEL_PATH = "plant_disease_model.h5"
-    CLASS_NAMES_PATH = "class_names.pkl"
+    MODEL_PATH = os.path.join(os.path.dirname(__file__), "plant_disease_model.h5")
+    CLASS_NAMES_PATH = os.path.join(os.path.dirname(__file__), "class_names.pkl")
     ENABLE_HISTORY = True
     ENABLE_ANALYTICS = True
     ENABLE_EXPORT = True
@@ -362,8 +362,20 @@ st.markdown(
 @st.cache_resource
 def load_model_and_classes():
     try:
+        # Get the directory where this script is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Create absolute paths
+        class_names_path = os.path.join(script_dir, os.path.basename(CLASS_NAMES_PATH))
+        model_path = os.path.join(script_dir, os.path.basename(MODEL_PATH))
+        
+        # Debug info
+        logging.info(f"Script directory: {script_dir}")
+        logging.info(f"Looking for class names at: {class_names_path}")
+        logging.info(f"Looking for model at: {model_path}")
+        
         # Load class names to determine number of classes
-        with open(CLASS_NAMES_PATH, 'rb') as f:
+        with open(class_names_path, 'rb') as f:
             class_names = pickle.load(f)
         num_classes = len(class_names)
         
@@ -384,7 +396,7 @@ def load_model_and_classes():
         model = Model(inputs=base_model.input, outputs=predictions)
         
         # Load the weights from the .h5 file
-        model.load_weights(MODEL_PATH)
+        model.load_weights(model_path)
         
         # Compile the model
         model.compile(
@@ -396,15 +408,24 @@ def load_model_and_classes():
         return model, class_names
     except Exception as e:
         logging.error(f"Error loading model or class names: {str(e)}")
+        
+        # Get paths for error message
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        class_names_path = os.path.join(script_dir, os.path.basename(CLASS_NAMES_PATH))
+        model_path = os.path.join(script_dir, os.path.basename(MODEL_PATH))
+        
         st.error(f"""
         Failed to load the model or class names. Error details:
         {str(e)}
         
         Please ensure:
-        1. The model weights file exists at {MODEL_PATH}
-        2. The class names file exists at {CLASS_NAMES_PATH}
+        1. The model weights file exists at {model_path}
+        2. The class names file exists at {class_names_path}
         3. The model weights are compatible with TensorFlow
         4. The class_names.pkl file is a valid pickle file containing a list of class names
+        
+        Current working directory: {os.getcwd()}
+        Script directory: {script_dir}
         """)
         return None, None
 

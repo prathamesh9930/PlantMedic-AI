@@ -18,7 +18,7 @@ class UIConfig:
     app_title: str = "� PlantMedic AI"
     app_subtitle: str = "Smart Plant Disease Detection & Agricultural Intelligence Platform"
     app_logo: str = "https://cdn-icons-png.flaticon.com/512/628/628283.png"
-    github_link: str = "https://github.com/Parthivkoli/AgroVision"
+    github_link: str = "https://github.com/prathamesh9930/PlantMedic-AI"
     page_icon: str = "🌿"
     layout: str = "wide"
     
